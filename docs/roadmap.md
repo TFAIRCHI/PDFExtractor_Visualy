@@ -57,6 +57,7 @@ Blocked until the geometry-overlay and packaged-sidecar spikes are verified.
 - PyInstaller sidecar `health.check` smoke test: passed.
 - Electron directory package includes compiled sidecar resource: passed.
 - Playwright vertical-slice workflow: passed.
+- Playwright golden overlay screenshot comparison: passed.
 - `cargo fmt --check`: passed.
 - `cargo test`: passed.
 - `cargo clippy --all-targets -- -D warnings`: passed.

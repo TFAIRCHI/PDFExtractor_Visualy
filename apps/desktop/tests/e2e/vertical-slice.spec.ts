@@ -51,6 +51,10 @@ test("loads a PDF, extracts words, selects a word, and saves a project", async (
   await page.getByTestId("run-extraction").click();
   await expect(page.getByTestId("status")).toContainText("Extraction complete");
   await expect(page.getByTestId("word-box").first()).toBeVisible();
+  await expect(page.locator(".page-frame")).toHaveScreenshot("native-text-overlay.png", {
+    animations: "disabled",
+    maxDiffPixelRatio: 0.02
+  });
 
   await page.getByTestId("word-box").first().click();
   await expect(page.getByTestId("selection-details")).toContainText("Invoice");

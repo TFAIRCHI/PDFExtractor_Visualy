@@ -34,8 +34,8 @@
 - Rust format, tests, and clippy: passed.
 - Packaged PyInstaller sidecar health check: passed.
 - Playwright vertical-slice workflow: passed.
+- Playwright golden overlay screenshot comparison: passed.
 
 Not yet run:
 
-- Golden overlay image comparisons.
 - Clean-machine package smoke test.
