@@ -73,7 +73,7 @@ export const RpcResponseSchema = z.object({
   jsonrpc: z.literal("2.0"),
   id: z.union([z.string(), z.number()]),
   result: z.unknown().optional(),
-  error: RpcErrorSchema.optional()
+  error: RpcErrorSchema.nullable().optional()
 });
 
 export type RpcRequest = z.infer<typeof RpcRequestSchema>;

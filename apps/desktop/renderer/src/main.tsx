@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import * as pdfjsLib from "pdfjs-dist";
 import type { PDFDocumentProxy, PDFPageProxy } from "pdfjs-dist";
@@ -29,13 +29,35 @@ function App(): React.ReactElement {
   const viewport = useMemo(() => pdfPage?.getViewport({ scale }) ?? null, [pdfPage, scale]);
   const pageWords = documentModel?.pages[0]?.words ?? [];
 
+  useEffect(() => {
+    let cancelled = false;
+    async function loadE2eFixture(): Promise<void> {
+      const config = await window.pdfIntelligence.getE2eConfig();
+      if (!config?.pdfPath || cancelled) {
+        return;
+      }
+      await loadPdfFromPath(config.pdfPath, config.pdfPath.split(/[\\/]/).pop() ?? "E2E.pdf");
+      if (config.projectPath && !cancelled) {
+        setProjectPath(config.projectPath);
+      }
+    }
+    void loadE2eFixture();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   async function openPdf(): Promise<void> {
     const file = await window.pdfIntelligence.openPdf();
     if (!file) {
       return;
     }
-    const bytes = await window.pdfIntelligence.readPdf(file.path);
-    setLoadedPdf({ ...file, bytes });
+    await loadPdfFromPath(file.path, file.name);
+  }
+
+  async function loadPdfFromPath(pdfPath: string, name: string): Promise<void> {
+    const bytes = await window.pdfIntelligence.readPdf(pdfPath);
+    setLoadedPdf({ path: pdfPath, name, bytes });
     setDocumentModel(null);
     setSelectedWord(null);
     setProjectPath(null);
@@ -75,10 +97,14 @@ function App(): React.ReactElement {
     if (!loadedPdf) {
       return;
     }
-    setStatus("Extracting native words through Python sidecar.");
-    const extracted = await window.pdfIntelligence.extractNative(loadedPdf.path);
-    setDocumentModel(extracted);
-    setStatus(`Extraction complete. ${extracted.pages[0]?.words.length ?? 0} words detected.`);
+    try {
+      setStatus("Extracting native words through Python sidecar.");
+      const extracted = await window.pdfIntelligence.extractNative(loadedPdf.path);
+      setDocumentModel(extracted);
+      setStatus(`Extraction complete. ${extracted.pages[0]?.words.length ?? 0} words detected.`);
+    } catch (error) {
+      setStatus(`Extraction failed: ${error instanceof Error ? error.message : String(error)}`);
+    }
   }
 
   async function changeScale(nextScale: number): Promise<void> {
@@ -127,14 +153,20 @@ function App(): React.ReactElement {
     <main className="app-shell">
       <aside className="sidebar" aria-label="Workflow">
         <h1>PDF Intelligence</h1>
-        <p className="status">{status}</p>
+        <p className="status" data-testid="status">
+          {status}
+        </p>
         <div className="button-stack">
-          <button onClick={openPdf}>Open PDF</button>
-          <button onClick={openProject}>Open Project</button>
-          <button onClick={runExtraction} disabled={!loadedPdf}>
+          <button onClick={openPdf} data-testid="open-pdf">
+            Open PDF
+          </button>
+          <button onClick={openProject} data-testid="open-project">
+            Open Project
+          </button>
+          <button onClick={runExtraction} disabled={!loadedPdf} data-testid="run-extraction">
             Run Extraction
           </button>
-          <button onClick={saveProject} disabled={!documentModel}>
+          <button onClick={saveProject} disabled={!documentModel} data-testid="save-project">
             Save Project
           </button>
         </div>
@@ -152,7 +184,7 @@ function App(): React.ReactElement {
         <section className="inspector" aria-label="Selected word inspector">
           <h2>Selection</h2>
           {selectedWord ? (
-            <dl>
+            <dl data-testid="selection-details">
               <dt>Text</dt>
               <dd>{selectedWord.text}</dd>
               <dt>Object</dt>
@@ -178,6 +210,7 @@ function App(): React.ReactElement {
                 <button
                   key={word.objectId}
                   className={word.objectId === selectedWord?.objectId ? "word-box selected" : "word-box"}
+                  data-testid="word-box"
                   style={wordStyle(word, viewport.width, viewport.height)}
                   onClick={() => setSelectedWord(word)}
                   title={`${word.text} (${Math.round(word.confidence * 100)}%)`}

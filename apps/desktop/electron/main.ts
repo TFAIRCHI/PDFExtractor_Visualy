@@ -122,6 +122,16 @@ function registerIpc(): void {
     const contents = await readFile(projectPath, "utf8");
     return { path: projectPath, project: ProjectSchema.parse(JSON.parse(contents)) };
   });
+
+  ipcMain.handle("e2e:config", async () => {
+    if (process.env.PDFI_E2E !== "1") {
+      return null;
+    }
+    return {
+      pdfPath: process.env.PDFI_E2E_PDF_PATH ?? null,
+      projectPath: process.env.PDFI_E2E_PROJECT_PATH ?? null
+    };
+  });
 }
 
 function getExtractionService(): ExtractionService {
@@ -147,7 +157,8 @@ function resolveSidecarCommand(): SidecarCommand {
   }
 
   if (!app.isPackaged) {
-    const localPython = path.resolve(app.getAppPath(), "../../.venv/Scripts/python.exe");
+    const repoRoot = resolveRepoRoot();
+    const localPython = path.join(repoRoot, ".venv", "Scripts", "python.exe");
     if (existsSync(localPython)) {
       return {
         command: localPython,
@@ -168,5 +179,23 @@ function resolveServiceModulePath(): string {
   if (app.isPackaged) {
     return path.join(process.resourcesPath, "services/extraction/src");
   }
-  return path.resolve(app.getAppPath(), "../../services/extraction/src");
+  return path.join(resolveRepoRoot(), "services", "extraction", "src");
+}
+
+function resolveRepoRoot(): string {
+  const candidates = [process.cwd(), app.getAppPath(), __dirname];
+  for (const candidate of candidates) {
+    let current = path.resolve(candidate);
+    for (let depth = 0; depth < 6; depth += 1) {
+      if (existsSync(path.join(current, "services", "extraction", "src"))) {
+        return current;
+      }
+      const parent = path.dirname(current);
+      if (parent === current) {
+        break;
+      }
+      current = parent;
+    }
+  }
+  return path.resolve(app.getAppPath(), "../../");
 }

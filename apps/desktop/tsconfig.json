@@ -8,11 +8,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "outDir": "dist",
-    "baseUrl": ".",
-    "paths": {
-      "@pdf-intelligence/contracts": ["../../packages/contracts/src/index.ts"]
-    }
+    "outDir": "dist"
   },
   "include": ["electron/**/*.ts", "preload/**/*.ts", "renderer/src/**/*.ts", "renderer/src/**/*.tsx"]
 }

@@ -3,6 +3,7 @@ import type { DocumentModel, ProjectModel } from "@pdf-intelligence/contracts";
 
 export type PdfFile = { path: string; name: string };
 export type OpenProjectResult = { path: string; project: ProjectModel };
+export type E2eConfig = { pdfPath: string | null; projectPath: string | null };
 
 export type DesktopApi = {
   openPdf(): Promise<PdfFile | null>;
@@ -10,6 +11,7 @@ export type DesktopApi = {
   extractNative(path: string): Promise<DocumentModel>;
   saveProject(path: string | null, project: ProjectModel): Promise<string | null>;
   openProject(): Promise<OpenProjectResult | null>;
+  getE2eConfig(): Promise<E2eConfig | null>;
 };
 
 const api: DesktopApi = {
@@ -17,7 +19,8 @@ const api: DesktopApi = {
   readPdf: (path) => ipcRenderer.invoke("pdf:read", path),
   extractNative: (path) => ipcRenderer.invoke("extract:native", path),
   saveProject: (path, project) => ipcRenderer.invoke("project:save", path, project),
-  openProject: () => ipcRenderer.invoke("project:open")
+  openProject: () => ipcRenderer.invoke("project:open"),
+  getE2eConfig: () => ipcRenderer.invoke("e2e:config")
 };
 
 contextBridge.exposeInMainWorld("pdfIntelligence", api);

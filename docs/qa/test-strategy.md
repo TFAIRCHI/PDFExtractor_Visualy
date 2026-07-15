@@ -33,9 +33,9 @@
 - Electron directory package: passed.
 - Rust format, tests, and clippy: passed.
 - Packaged PyInstaller sidecar health check: passed.
+- Playwright vertical-slice workflow: passed.
 
 Not yet run:
 
-- Playwright end-to-end workflow.
 - Golden overlay image comparisons.
 - Clean-machine package smoke test.

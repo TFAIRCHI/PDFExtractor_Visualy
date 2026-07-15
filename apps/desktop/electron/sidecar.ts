@@ -56,6 +56,11 @@ export class ExtractionService {
       stdio: ["pipe", "pipe", "pipe"],
       windowsHide: true
     });
+    if (process.env.PDFI_E2E === "1") {
+      console.error(
+        `[extraction-service] spawn ${this.pythonCommand} ${this.commandArgs.join(" ")}`
+      );
+    }
 
     const output = createInterface({ input: child.stdout });
     output.on("line", (line) => this.handleLine(line));
@@ -75,6 +80,9 @@ export class ExtractionService {
   }
 
   private handleLine(line: string): void {
+    if (process.env.PDFI_E2E === "1") {
+      console.error(`[extraction-service] stdout ${line}`);
+    }
     const parsed = RpcResponseSchema.parse(JSON.parse(line));
     const pending = this.pending.get(parsed.id);
     if (!pending) {

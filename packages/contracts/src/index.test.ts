@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CONTRACT_VERSION, DocumentModelSchema } from "./index.js";
+import { CONTRACT_VERSION, DocumentModelSchema, RpcResponseSchema } from "./index.js";
 
 describe("DocumentModelSchema", () => {
   it("validates a minimal extracted document", () => {
@@ -34,5 +34,16 @@ describe("DocumentModelSchema", () => {
     });
 
     expect(parsed.pages[0]?.words[0]?.text).toBe("Invoice");
+  });
+
+  it("accepts successful JSON-RPC responses with a null error", () => {
+    const parsed = RpcResponseSchema.parse({
+      jsonrpc: "2.0",
+      id: "request-1",
+      result: { ok: true },
+      error: null
+    });
+
+    expect(parsed.error).toBeNull();
   });
 });

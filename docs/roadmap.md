@@ -19,7 +19,6 @@ Completed in the initial scaffold:
 
 Remaining:
 
-- Electron integration smoke test.
 - Sidecar process recovery test.
 - Production logging.
 - Installer, signing, icon, and executable metadata.
@@ -57,6 +56,7 @@ Blocked until the geometry-overlay and packaged-sidecar spikes are verified.
 - `.venv` sidecar isolation through `uv`: passed.
 - PyInstaller sidecar `health.check` smoke test: passed.
 - Electron directory package includes compiled sidecar resource: passed.
+- Playwright vertical-slice workflow: passed.
 - `cargo fmt --check`: passed.
 - `cargo test`: passed.
 - `cargo clippy --all-targets -- -D warnings`: passed.

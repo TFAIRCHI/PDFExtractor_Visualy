@@ -14,6 +14,7 @@
     "dev": "npm --workspace @pdf-intelligence/desktop run dev",
     "build": "npm --workspace @pdf-intelligence/contracts run build && npm --workspace @pdf-intelligence/project-schema run build && npm --workspace @pdf-intelligence/desktop run build",
     "test": "npm --workspaces --if-present run test",
+    "test:e2e": "npm run build && npm --workspace @pdf-intelligence/desktop run test:e2e",
     "lint": "npm --workspaces --if-present run lint",
     "build:sidecar": "powershell -ExecutionPolicy Bypass -File scripts/build-sidecar.ps1",
     "package:dir": "npm --workspace @pdf-intelligence/desktop run package:dir"

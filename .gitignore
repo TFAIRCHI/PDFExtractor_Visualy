@@ -16,3 +16,6 @@ installers/*.exe
 installers/*.msi
 installers/*.zip
 *.spec
+apps/desktop/test-results/
+apps/desktop/playwright-report/
+test-data/synthetic/e2e/

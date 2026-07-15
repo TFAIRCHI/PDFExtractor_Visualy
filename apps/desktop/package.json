@@ -8,8 +8,10 @@
   "main": "dist/electron/main.js",
   "scripts": {
     "dev": "concurrently -k \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && cross-env VITE_DEV_SERVER_URL=http://127.0.0.1:5173 electron .\"",
-    "build": "tsc -p tsconfig.json && vite build",
-    "test": "vitest run --root .",
+    "clean": "powershell -ExecutionPolicy Bypass -Command \"Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue\"",
+    "build": "npm run clean && tsc -p tsconfig.json && vite build",
+    "test": "vitest run --root . --exclude tests/e2e/**",
+    "test:e2e": "playwright test --config playwright.config.ts",
     "lint": "tsc -p tsconfig.json --noEmit",
     "package:dir": "npm run build && powershell -ExecutionPolicy Bypass -File ../../scripts/build-sidecar.ps1 && electron-builder --dir"
   },
@@ -25,6 +27,7 @@
     "@types/react": "19.1.8",
     "@types/react-dom": "19.1.6",
     "@vitejs/plugin-react": "4.6.0",
+    "@playwright/test": "1.57.0",
     "concurrently": "9.2.0",
     "cross-env": "7.0.3",
     "electron": "43.1.1",
