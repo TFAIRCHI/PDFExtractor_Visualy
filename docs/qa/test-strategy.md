@@ -36,6 +36,7 @@
 - Playwright vertical-slice workflow: passed.
 - Playwright golden overlay screenshot comparison: passed.
 - Packaged app smoke test with development Python removed from PATH: passed.
+- Sidecar process recovery test: passed.
 
 Not yet run:
 

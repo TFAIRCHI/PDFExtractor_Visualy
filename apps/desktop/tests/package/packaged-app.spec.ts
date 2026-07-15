@@ -38,13 +38,19 @@ test.beforeAll(() => {
 });
 
 test("packaged app extracts with bundled sidecar and no development Python on PATH", async () => {
+  const filteredPath = (process.env.PATH ?? "")
+    .split(";")
+    .filter((entry) => {
+      const normalized = entry.toLowerCase();
+      return !normalized.includes("python") && !normalized.includes("anaconda");
+    })
+    .join(";");
+
   const app = await electron.launch({
     executablePath: packagedExe,
     env: {
-      SystemRoot: process.env.SystemRoot ?? "C:\\Windows",
-      TEMP: process.env.TEMP ?? "",
-      TMP: process.env.TMP ?? "",
-      PATH: `${process.env.SystemRoot ?? "C:\\Windows"}\\System32`,
+      ...process.env,
+      PATH: filteredPath,
       PDFI_E2E: "1",
       PDFI_E2E_PDF_PATH: fixturePdf
     }
