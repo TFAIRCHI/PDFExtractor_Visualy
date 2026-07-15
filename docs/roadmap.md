@@ -44,6 +44,7 @@ Blocked until the geometry-overlay and packaged-sidecar spikes are verified.
 
 ## Latest Validation Evidence
 
+- See `docs/status/risk-burndown.md` for the commit-by-commit roadblock trail.
 - `npm test`: passed.
 - `npm run build`: passed.
 - `npm run package:dir`: passed, unsigned directory package.
