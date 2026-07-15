@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { DocumentModelSchema, ProjectSchema, type DocumentModel } from "@pdf-intelligence/contracts";
 import { ExtractionService } from "./sidecar.js";
+import { logEvent } from "./logger.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 let mainWindow: BrowserWindow | null = null;
@@ -50,6 +51,7 @@ function createWindow(): void {
 }
 
 app.whenReady().then(() => {
+  logEvent("info", "app_ready", { version: app.getVersion(), packaged: app.isPackaged });
   const sidecar = resolveSidecarCommand();
   extractionService = new ExtractionService(sidecar.command, sidecar.args, sidecar.pythonPath);
   registerIpc();
@@ -65,12 +67,14 @@ app.on("window-all-closed", () => {
 
 function registerIpc(): void {
   ipcMain.handle("pdf:open", async () => {
+    logEvent("info", "pdf_open_dialog_started");
     const result = await dialog.showOpenDialog(mainWindow!, {
       title: "Open PDF",
       filters: [{ name: "PDF", extensions: ["pdf"] }],
       properties: ["openFile"]
     });
     if (result.canceled || result.filePaths.length === 0) {
+      logEvent("info", "pdf_open_dialog_cancelled");
       return null;
     }
     const pdfPath = path.resolve(result.filePaths[0]!);
@@ -85,11 +89,17 @@ function registerIpc(): void {
 
   ipcMain.handle("extract:native", async (_event, pdfPath: string) => {
     assertPdfPath(pdfPath);
+    logEvent("info", "native_extraction_started", { extension: path.extname(pdfPath).toLowerCase() });
     const response = await getExtractionService().request("document.extractNative", {
       pdfPath,
       maxPages: 1
     });
-    return DocumentModelSchema.parse(response) satisfies DocumentModel;
+    const parsed = DocumentModelSchema.parse(response) satisfies DocumentModel;
+    logEvent("info", "native_extraction_completed", {
+      pageCount: parsed.pageCount,
+      extractedPages: parsed.pages.length
+    });
+    return parsed;
   });
 
   ipcMain.handle("project:save", async (_event, projectPath: string | null, payload: unknown) => {
@@ -106,6 +116,7 @@ function registerIpc(): void {
       return null;
     }
     await writeFile(target, JSON.stringify(project, null, 2), "utf8");
+    logEvent("info", "project_saved", { schemaVersion: project.schemaVersion });
     return target;
   });
 

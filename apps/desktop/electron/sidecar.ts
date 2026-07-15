@@ -2,6 +2,7 @@ import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 import { createInterface } from "node:readline";
 import { RpcResponseSchema } from "@pdf-intelligence/contracts";
 import { randomUUID } from "node:crypto";
+import { logEvent } from "./logger.js";
 
 type Pending = {
   resolve: (value: unknown) => void;
@@ -56,6 +57,10 @@ export class ExtractionService {
       stdio: ["pipe", "pipe", "pipe"],
       windowsHide: true
     });
+    logEvent("info", "extraction_service_started", {
+      command: this.pythonCommand,
+      argCount: this.commandArgs.length
+    });
     if (process.env.PDFI_E2E === "1") {
       console.error(
         `[extraction-service] spawn ${this.pythonCommand} ${this.commandArgs.join(" ")}`
@@ -65,9 +70,12 @@ export class ExtractionService {
     const output = createInterface({ input: child.stdout });
     output.on("line", (line) => this.handleLine(line));
     child.stderr.on("data", (chunk: Buffer) => {
-      console.error(`[extraction-service] ${chunk.toString("utf8").trim()}`);
+      const message = chunk.toString("utf8").trim();
+      console.error(`[extraction-service] ${message}`);
+      logEvent("warn", "extraction_service_stderr", { message });
     });
     child.on("exit", () => {
+      logEvent("warn", "extraction_service_exited");
       this.child = null;
       for (const pending of this.pending.values()) {
         clearTimeout(pending.timer);

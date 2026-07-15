@@ -24,6 +24,7 @@
 
 ## Latest Run
 
+- Full JavaScript/Electron checks should run sequentially with `npm run check` because E2E and package smoke rebuild the same desktop output directory.
 - JavaScript unit tests: passed.
 - Python unit tests: passed.
 - Python Ruff: passed.

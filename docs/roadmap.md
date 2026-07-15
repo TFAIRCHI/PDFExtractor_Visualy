@@ -19,7 +19,6 @@ Completed in the initial scaffold:
 
 Remaining:
 
-- Production logging.
 - Installer, signing, icon, and executable metadata.
 - Clean-machine package smoke test.
 
@@ -59,6 +58,7 @@ Blocked until the geometry-overlay and packaged-sidecar spikes are verified.
 - Playwright golden overlay screenshot comparison: passed.
 - Packaged app smoke test with development Python removed from `PATH`: passed.
 - Sidecar process recovery test: passed.
+- Privacy-safe main-process structured logging: implemented.
 - `cargo fmt --check`: passed.
 - `cargo test`: passed.
 - `cargo clippy --all-targets -- -D warnings`: passed.

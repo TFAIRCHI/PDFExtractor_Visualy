@@ -21,6 +21,7 @@
 - Main-process path validation.
 - Sidecar stdio instead of HTTP.
 - Structured errors without document text in logs by default.
+- Main-process structured logging redacts fields that are likely to contain document text or content.
 
 ## Open Controls
 
