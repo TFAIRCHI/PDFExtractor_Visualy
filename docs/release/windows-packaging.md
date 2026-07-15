@@ -6,12 +6,11 @@ Current output:
 
 - `installers/dev/win-unpacked/PDF Intelligence.exe`
 - Unsigned.
-- Python sidecar source copied into packaged resources.
-- No embedded Python runtime yet.
+- PyInstaller-built sidecar copied to `resources/sidecar/extraction-service.exe`.
+- Packaged sidecar no longer depends on a separately installed Python interpreter.
 
 Production packaging requires:
 
-- Embedded Python sidecar.
 - Compiled Rust extensions.
 - Installer technology selection.
 - Code-signing configuration.

@@ -43,6 +43,8 @@ Build a Windows development package:
 npm run package:dir
 ```
 
+The package command builds a PyInstaller sidecar executable and includes it in the Electron resources directory.
+
 ## First Vertical Slice
 
 The current target workflow is:
@@ -55,5 +57,6 @@ The current target workflow is:
 6. Select a word and inspect text, geometry, source, and confidence.
 7. Save a project JSON file.
 8. Reopen the saved project.
+9. Produce a Windows development build.
 
 See [docs/roadmap.md](docs/roadmap.md) for current status and risks.

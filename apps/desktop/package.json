@@ -11,7 +11,7 @@
     "build": "tsc -p tsconfig.json && vite build",
     "test": "vitest run --root .",
     "lint": "tsc -p tsconfig.json --noEmit",
-    "package:dir": "npm run build && electron-builder --dir"
+    "package:dir": "npm run build && powershell -ExecutionPolicy Bypass -File ../../scripts/build-sidecar.ps1 && electron-builder --dir"
   },
   "dependencies": {
     "@pdf-intelligence/contracts": "0.1.0",
@@ -43,8 +43,8 @@
     ],
     "extraResources": [
       {
-        "from": "../../services/extraction/src",
-        "to": "services/extraction/src"
+        "from": "../../dist/sidecar",
+        "to": "sidecar"
       }
     ],
     "directories": {

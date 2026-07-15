@@ -15,7 +15,8 @@ export class ExtractionService {
 
   constructor(
     private readonly pythonCommand: string,
-    private readonly pythonPath: string
+    private readonly commandArgs: string[],
+    private readonly pythonPath: string | null
   ) {}
 
   async request(method: string, params?: Record<string, unknown>, timeoutMs = 30_000): Promise<unknown> {
@@ -47,10 +48,10 @@ export class ExtractionService {
     if (this.child && !this.child.killed) {
       return this.child;
     }
-    const child = spawn(this.pythonCommand, ["-m", "extraction_service.rpc"], {
+    const child = spawn(this.pythonCommand, this.commandArgs, {
       env: {
         ...process.env,
-        PYTHONPATH: this.pythonPath
+        ...(this.pythonPath ? { PYTHONPATH: this.pythonPath } : {})
       },
       stdio: ["pipe", "pipe", "pipe"],
       windowsHide: true

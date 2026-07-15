@@ -15,6 +15,8 @@ function Find-Uv {
 }
 
 $uv = Find-Uv
-& $uv venv .venv --python 3.11
+if (-not (Test-Path ".venv")) {
+  & $uv venv .venv --python 3.11
+}
 & $uv pip install -e "services/extraction[dev]"
 & $uv lock --project services/extraction

@@ -10,6 +10,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 let mainWindow: BrowserWindow | null = null;
 let extractionService: ExtractionService | null = null;
 
+type SidecarCommand = {
+  command: string;
+  args: string[];
+  pythonPath: string | null;
+};
+
 function createWindow(): void {
   mainWindow = new BrowserWindow({
     width: 1360,
@@ -44,7 +50,8 @@ function createWindow(): void {
 }
 
 app.whenReady().then(() => {
-  extractionService = new ExtractionService(resolvePythonCommand(), resolveServiceModulePath());
+  const sidecar = resolveSidecarCommand();
+  extractionService = new ExtractionService(sidecar.command, sidecar.args, sidecar.pythonPath);
   registerIpc();
   createWindow();
 });
@@ -131,14 +138,30 @@ function assertPdfPath(pdfPath: string): void {
   }
 }
 
-function resolvePythonCommand(): string {
+function resolveSidecarCommand(): SidecarCommand {
+  if (app.isPackaged) {
+    const sidecarExe = path.join(process.resourcesPath, "sidecar", "extraction-service.exe");
+    if (existsSync(sidecarExe)) {
+      return { command: sidecarExe, args: [], pythonPath: null };
+    }
+  }
+
   if (!app.isPackaged) {
     const localPython = path.resolve(app.getAppPath(), "../../.venv/Scripts/python.exe");
     if (existsSync(localPython)) {
-      return localPython;
+      return {
+        command: localPython,
+        args: ["-m", "extraction_service.rpc"],
+        pythonPath: resolveServiceModulePath()
+      };
     }
   }
-  return process.platform === "win32" ? "python" : "python3";
+
+  return {
+    command: process.platform === "win32" ? "python" : "python3",
+    args: ["-m", "extraction_service.rpc"],
+    pythonPath: resolveServiceModulePath()
+  };
 }
 
 function resolveServiceModulePath(): string {
