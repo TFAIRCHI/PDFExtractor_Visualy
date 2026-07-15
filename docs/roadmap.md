@@ -19,8 +19,8 @@ Completed in the initial scaffold:
 
 Remaining:
 
-- Installer, signing, icon, and executable metadata.
 - Clean-machine package smoke test.
+- Production code-signing certificate and CI secret handling.
 
 ## Milestone 2: PDF Viewer And Geometry Foundation
 
@@ -59,6 +59,8 @@ Blocked until the geometry-overlay and packaged-sidecar spikes are verified.
 - Packaged app smoke test with development Python removed from `PATH`: passed.
 - Sidecar process recovery test: passed.
 - Privacy-safe main-process structured logging: implemented.
+- NSIS installer generation and placeholder icon: implemented.
+- Unsigned installer artifact: `installers/dev/PDF Intelligence Setup 0.1.0.exe`.
 - `cargo fmt --check`: passed.
 - `cargo test`: passed.
 - `cargo clippy --all-targets -- -D warnings`: passed.

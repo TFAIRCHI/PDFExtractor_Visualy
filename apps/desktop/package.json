@@ -14,7 +14,8 @@
     "test:e2e": "playwright test --config playwright.config.ts",
     "test:package": "playwright test --config playwright.package.config.ts",
     "lint": "tsc -p tsconfig.json --noEmit",
-    "package:dir": "npm run build && powershell -ExecutionPolicy Bypass -File ../../scripts/build-sidecar.ps1 && electron-builder --dir"
+    "package:dir": "npm run build && powershell -ExecutionPolicy Bypass -File ../../scripts/build-sidecar.ps1 && electron-builder --dir",
+    "package:installer": "npm run build && powershell -ExecutionPolicy Bypass -File ../../scripts/build-sidecar.ps1 && electron-builder"
   },
   "dependencies": {
     "@pdf-intelligence/contracts": "0.1.0",
@@ -55,8 +56,20 @@
       "output": "../../installers/dev"
     },
     "win": {
-      "target": "dir",
-      "signAndEditExecutable": false
+      "target": [
+        "dir",
+        "nsis"
+      ],
+      "icon": "assets/icon.ico",
+      "signExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "PDF Intelligence"
     }
   }
 }
