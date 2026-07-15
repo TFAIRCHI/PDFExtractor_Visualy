@@ -7,7 +7,7 @@ from typing import TextIO
 from pydantic import ValidationError
 
 from .models import RpcError, RpcRequest, RpcResponse
-from .native_pdf import extract_document, inspect_document
+from .native_pdf import extract_diagnostics, extract_document, inspect_document
 
 
 def handle_request(request: RpcRequest) -> RpcResponse:
@@ -23,6 +23,14 @@ def handle_request(request: RpcRequest) -> RpcResponse:
             max_pages = _parse_optional_int(max_pages_raw)
             document = extract_document(str(params.get("pdfPath", "")), max_pages=max_pages)
             return RpcResponse(id=request.id, result=document.model_dump())
+        if request.method == "document.extractDiagnostics":
+            params = request.params or {}
+            max_pages_raw = params.get("maxPages")
+            max_pages = _parse_optional_int(max_pages_raw)
+            return RpcResponse(
+                id=request.id,
+                result=extract_diagnostics(str(params.get("pdfPath", "")), max_pages=max_pages),
+            )
         return RpcResponse(id=request.id, error=RpcError(code=-32601, message="Method not found."))
     except Exception as exc:
         return RpcResponse(id=request.id, error=RpcError(code=-32000, message=type(exc).__name__, data=str(exc)))

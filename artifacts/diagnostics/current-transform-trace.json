@@ -1,0 +1,505 @@
+{
+  "traceVersion": "0.1.0",
+  "sourcePdf": "C:\\Users\\tyler\\Documents\\Projects\\PDFExtractionTool\\test-data\\regressions\\current-overlay-failure\\synthetic-run-geometry.pdf",
+  "pageIndex": 0,
+  "renderer": "pdf.js",
+  "rendererViewport": {
+    "scale": 1.25,
+    "widthCssPx": 375.0,
+    "heightCssPx": 275.0,
+    "origin": "top-left CSS page space"
+  },
+  "extractor": "pypdf visitor_text",
+  "extractorCoordinates": {
+    "sourceOrigin": "bottom-left PDF user space",
+    "xSource": "textMatrix[4]",
+    "ySource": "textMatrix[5]",
+    "semanticTopYFormula": "mediaBox.height - textMatrix[5] - fontSize"
+  },
+  "displayTransform": {
+    "normalizedX": "sourceBBox.x / mediaBox.width",
+    "normalizedY": "sourceBBox.y / mediaBox.height",
+    "leftCssPx": "normalizedBBox.x * viewport.width",
+    "topCssPx": "normalizedBBox.y * viewport.height",
+    "widthCssPx": "normalizedBBox.width * viewport.width",
+    "heightCssPx": "normalizedBBox.height * viewport.height"
+  },
+  "sampleSemanticWords": [
+    {
+      "objectId": "p0-r6-w0",
+      "pageIndex": 0,
+      "text": "Alpha",
+      "sourceBBox": {
+        "x": 40.0,
+        "y": 48.0,
+        "width": 30.0,
+        "height": 12.0
+      },
+      "normalizedBBox": {
+        "x": 0.13333333333333333,
+        "y": 0.21818181818181817,
+        "width": 0.1,
+        "height": 0.05454545454545454
+      },
+      "confidence": 0.78,
+      "sourceMethod": "native_pdf",
+      "provenance": {
+        "engine": "pypdf",
+        "engineVersion": "5.7.0",
+        "contractVersion": "0.1.0"
+      }
+    },
+    {
+      "objectId": "p0-r6-w1",
+      "pageIndex": 0,
+      "text": "Beta",
+      "sourceBBox": {
+        "x": 76.0,
+        "y": 48.0,
+        "width": 24.0,
+        "height": 12.0
+      },
+      "normalizedBBox": {
+        "x": 0.25333333333333335,
+        "y": 0.21818181818181817,
+        "width": 0.08,
+        "height": 0.05454545454545454
+      },
+      "confidence": 0.78,
+      "sourceMethod": "native_pdf",
+      "provenance": {
+        "engine": "pypdf",
+        "engineVersion": "5.7.0",
+        "contractVersion": "0.1.0"
+      }
+    },
+    {
+      "objectId": "p0-r9-w0",
+      "pageIndex": 0,
+      "text": "WideWord",
+      "sourceBBox": {
+        "x": 40.0,
+        "y": 78.0,
+        "width": 48.0,
+        "height": 12.0
+      },
+      "normalizedBBox": {
+        "x": 0.13333333333333333,
+        "y": 0.35454545454545455,
+        "width": 0.16,
+        "height": 0.05454545454545454
+      },
+      "confidence": 0.78,
+      "sourceMethod": "native_pdf",
+      "provenance": {
+        "engine": "pypdf",
+        "engineVersion": "5.7.0",
+        "contractVersion": "0.1.0"
+      }
+    },
+    {
+      "objectId": "p0-r12-w0",
+      "pageIndex": 0,
+      "text": "Neighbor",
+      "sourceBBox": {
+        "x": 145.0,
+        "y": 78.0,
+        "width": 48.0,
+        "height": 12.0
+      },
+      "normalizedBBox": {
+        "x": 0.48333333333333334,
+        "y": 0.35454545454545455,
+        "width": 0.16,
+        "height": 0.05454545454545454
+      },
+      "confidence": 0.78,
+      "sourceMethod": "native_pdf",
+      "provenance": {
+        "engine": "pypdf",
+        "engineVersion": "5.7.0",
+        "contractVersion": "0.1.0"
+      }
+    }
+  ],
+  "rawRuns": [
+    {
+      "runIndex": 0,
+      "rawText": "",
+      "cleanedText": "",
+      "isWhitespaceOnly": true,
+      "skippedBySemanticExtraction": true,
+      "xFromTextMatrix": 0.0,
+      "yFromTextMatrix": 0.0,
+      "fontSize": 12.0,
+      "fontName": null,
+      "currentTransformationMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "textMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "runIndex": 1,
+      "rawText": "",
+      "cleanedText": "",
+      "isWhitespaceOnly": true,
+      "skippedBySemanticExtraction": true,
+      "xFromTextMatrix": 0.0,
+      "yFromTextMatrix": 0.0,
+      "fontSize": 12.0,
+      "fontName": null,
+      "currentTransformationMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "textMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "runIndex": 2,
+      "rawText": "",
+      "cleanedText": "",
+      "isWhitespaceOnly": true,
+      "skippedBySemanticExtraction": true,
+      "xFromTextMatrix": 0.0,
+      "yFromTextMatrix": 0.0,
+      "fontSize": 12.0,
+      "fontName": "/Helvetica",
+      "currentTransformationMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "textMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "runIndex": 3,
+      "rawText": "",
+      "cleanedText": "",
+      "isWhitespaceOnly": true,
+      "skippedBySemanticExtraction": true,
+      "xFromTextMatrix": 0.0,
+      "yFromTextMatrix": 0.0,
+      "fontSize": 12.0,
+      "fontName": "/Helvetica",
+      "currentTransformationMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "textMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "runIndex": 4,
+      "rawText": "",
+      "cleanedText": "",
+      "isWhitespaceOnly": true,
+      "skippedBySemanticExtraction": true,
+      "xFromTextMatrix": 0.0,
+      "yFromTextMatrix": 0.0,
+      "fontSize": 12.0,
+      "fontName": "/Helvetica",
+      "currentTransformationMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "textMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "runIndex": 5,
+      "rawText": "",
+      "cleanedText": "",
+      "isWhitespaceOnly": true,
+      "skippedBySemanticExtraction": true,
+      "xFromTextMatrix": 0.0,
+      "yFromTextMatrix": 0.0,
+      "fontSize": 12.0,
+      "fontName": "/Helvetica",
+      "currentTransformationMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "textMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "runIndex": 6,
+      "rawText": "Alpha  Beta\n",
+      "cleanedText": "Alpha  Beta",
+      "isWhitespaceOnly": false,
+      "skippedBySemanticExtraction": false,
+      "xFromTextMatrix": 40.0,
+      "yFromTextMatrix": 160.0,
+      "fontSize": 12.0,
+      "fontName": "/Helvetica",
+      "currentTransformationMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "textMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        40.0,
+        160.0
+      ]
+    },
+    {
+      "runIndex": 7,
+      "rawText": "",
+      "cleanedText": "",
+      "isWhitespaceOnly": true,
+      "skippedBySemanticExtraction": true,
+      "xFromTextMatrix": 40.0,
+      "yFromTextMatrix": -12.800000000000011,
+      "fontSize": 12.0,
+      "fontName": "/Helvetica",
+      "currentTransformationMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "textMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        40.0,
+        -12.800000000000011
+      ]
+    },
+    {
+      "runIndex": 8,
+      "rawText": "",
+      "cleanedText": "",
+      "isWhitespaceOnly": true,
+      "skippedBySemanticExtraction": true,
+      "xFromTextMatrix": 40.0,
+      "yFromTextMatrix": -12.800000000000011,
+      "fontSize": 12.0,
+      "fontName": "/Helvetica",
+      "currentTransformationMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "textMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        40.0,
+        -12.800000000000011
+      ]
+    },
+    {
+      "runIndex": 9,
+      "rawText": "WideWord\n",
+      "cleanedText": "WideWord",
+      "isWhitespaceOnly": false,
+      "skippedBySemanticExtraction": false,
+      "xFromTextMatrix": 40.0,
+      "yFromTextMatrix": 130.0,
+      "fontSize": 12.0,
+      "fontName": "/Helvetica",
+      "currentTransformationMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "textMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        40.0,
+        130.0
+      ]
+    },
+    {
+      "runIndex": 10,
+      "rawText": "",
+      "cleanedText": "",
+      "isWhitespaceOnly": true,
+      "skippedBySemanticExtraction": true,
+      "xFromTextMatrix": 40.0,
+      "yFromTextMatrix": -42.80000000000001,
+      "fontSize": 12.0,
+      "fontName": "/Helvetica",
+      "currentTransformationMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "textMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        40.0,
+        -42.80000000000001
+      ]
+    },
+    {
+      "runIndex": 11,
+      "rawText": "",
+      "cleanedText": "",
+      "isWhitespaceOnly": true,
+      "skippedBySemanticExtraction": true,
+      "xFromTextMatrix": 40.0,
+      "yFromTextMatrix": -42.80000000000001,
+      "fontSize": 12.0,
+      "fontName": "/Helvetica",
+      "currentTransformationMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "textMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        40.0,
+        -42.80000000000001
+      ]
+    },
+    {
+      "runIndex": 12,
+      "rawText": "Neighbor\n",
+      "cleanedText": "Neighbor",
+      "isWhitespaceOnly": false,
+      "skippedBySemanticExtraction": false,
+      "xFromTextMatrix": 145.0,
+      "yFromTextMatrix": 130.0,
+      "fontSize": 12.0,
+      "fontName": "/Helvetica",
+      "currentTransformationMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "textMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        145.0,
+        130.0
+      ]
+    },
+    {
+      "runIndex": 13,
+      "rawText": "",
+      "cleanedText": "",
+      "isWhitespaceOnly": true,
+      "skippedBySemanticExtraction": true,
+      "xFromTextMatrix": 145.0,
+      "yFromTextMatrix": -42.80000000000001,
+      "fontSize": 12.0,
+      "fontName": "/Helvetica",
+      "currentTransformationMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        0.0,
+        0.0
+      ],
+      "textMatrix": [
+        1.0,
+        0.0,
+        0.0,
+        1.0,
+        145.0,
+        -42.80000000000001
+      ]
+    }
+  ]
+}
