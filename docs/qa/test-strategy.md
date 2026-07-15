@@ -35,6 +35,7 @@
 - Packaged PyInstaller sidecar health check: passed.
 - Playwright vertical-slice workflow: passed.
 - Playwright golden overlay screenshot comparison: passed.
+- Packaged app smoke test with development Python removed from PATH: passed.
 
 Not yet run:
 

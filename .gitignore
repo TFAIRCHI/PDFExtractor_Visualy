@@ -19,3 +19,4 @@ installers/*.zip
 apps/desktop/test-results/
 apps/desktop/playwright-report/
 test-data/synthetic/e2e/
+test-data/synthetic/package-smoke/

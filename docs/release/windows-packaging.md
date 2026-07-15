@@ -8,6 +8,7 @@ Current output:
 - Unsigned.
 - PyInstaller-built sidecar copied to `resources/sidecar/extraction-service.exe`.
 - Packaged sidecar no longer depends on a separately installed Python interpreter.
+- Packaged smoke test launches the built app with development Python removed from `PATH`.
 
 Production packaging requires:
 

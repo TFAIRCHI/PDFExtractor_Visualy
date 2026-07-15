@@ -58,6 +58,7 @@ Blocked until the geometry-overlay and packaged-sidecar spikes are verified.
 - Electron directory package includes compiled sidecar resource: passed.
 - Playwright vertical-slice workflow: passed.
 - Playwright golden overlay screenshot comparison: passed.
+- Packaged app smoke test with development Python removed from `PATH`: passed.
 - `cargo fmt --check`: passed.
 - `cargo test`: passed.
 - `cargo clippy --all-targets -- -D warnings`: passed.
