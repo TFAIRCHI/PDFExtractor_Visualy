@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "jsx": "react-jsx",
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@pdf-intelligence/contracts": ["../../packages/contracts/src/index.ts"]
+    }
+  },
+  "include": ["electron/**/*.ts", "preload/**/*.ts", "renderer/src/**/*.ts", "renderer/src/**/*.tsx"]
+}

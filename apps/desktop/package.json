@@ -1,0 +1,58 @@
+{
+  "name": "@pdf-intelligence/desktop",
+  "version": "0.1.0",
+  "description": "Offline-first PDF intelligence desktop application",
+  "author": "PDF Intelligence Contributors",
+  "private": true,
+  "type": "module",
+  "main": "dist/electron/main.js",
+  "scripts": {
+    "dev": "concurrently -k \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && cross-env VITE_DEV_SERVER_URL=http://127.0.0.1:5173 electron .\"",
+    "build": "tsc -p tsconfig.json && vite build",
+    "test": "vitest run --root .",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "package:dir": "npm run build && electron-builder --dir"
+  },
+  "dependencies": {
+    "@pdf-intelligence/contracts": "0.1.0",
+    "pdfjs-dist": "5.3.93",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "uuid": "11.1.1",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.8",
+    "@types/react-dom": "19.1.6",
+    "@vitejs/plugin-react": "4.6.0",
+    "concurrently": "9.2.0",
+    "cross-env": "7.0.3",
+    "electron": "43.1.1",
+    "electron-builder": "26.15.3",
+    "typescript": "5.8.3",
+    "vite": "7.3.6",
+    "vitest": "3.2.7",
+    "wait-on": "8.0.3"
+  },
+  "build": {
+    "appId": "com.pdfintelligence.desktop",
+    "productName": "PDF Intelligence",
+    "files": [
+      "dist/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "../../services/extraction/src",
+        "to": "services/extraction/src"
+      }
+    ],
+    "directories": {
+      "output": "../../installers/dev"
+    },
+    "win": {
+      "target": "dir",
+      "signAndEditExecutable": false
+    }
+  }
+}

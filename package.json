@@ -1,0 +1,25 @@
+{
+  "name": "pdf-intelligence",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/desktop",
+    "packages/contracts",
+    "packages/project-schema",
+    "packages/ui-components",
+    "packages/validation-rules"
+  ],
+  "scripts": {
+    "dev": "npm --workspace @pdf-intelligence/desktop run dev",
+    "build": "npm --workspace @pdf-intelligence/contracts run build && npm --workspace @pdf-intelligence/project-schema run build && npm --workspace @pdf-intelligence/desktop run build",
+    "test": "npm --workspaces --if-present run test",
+    "lint": "npm --workspaces --if-present run lint",
+    "package:dir": "npm --workspace @pdf-intelligence/desktop run package:dir"
+  },
+  "devDependencies": {
+    "@types/node": "24.0.10",
+    "typescript": "5.8.3",
+    "vitest": "3.2.7"
+  }
+}
