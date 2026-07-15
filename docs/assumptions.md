@@ -5,5 +5,5 @@
 - Rust 1.97.0 is installed through rustup and pinned in `rust-toolchain.toml`.
 - The first Windows package can be an unsigned development directory build.
 - OCR, table extraction, and template learning remain blocked behind the page-rendering and geometry-overlay exit gates.
-- Until a project-local virtual environment or `uv` is added, Python dependency installation may affect the active system or Anaconda environment.
+- Python sidecar development dependencies are isolated in `.venv` through `uv`; earlier global Anaconda install conflicts should not be repeated.
 - The development package may launch on this workstation, but extraction in packaged form still depends on an installed Python runtime and installed sidecar dependencies.

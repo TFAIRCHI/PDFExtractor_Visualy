@@ -28,6 +28,7 @@
 - Python unit tests: passed.
 - Python Ruff: passed.
 - Python MyPy: passed.
+- Python checks run through project-local `.venv`: passed.
 - Node audit: passed.
 - Electron directory package: passed.
 - Rust format, tests, and clippy: passed.

@@ -1,4 +1,5 @@
 import { app, BrowserWindow, dialog, ipcMain } from "electron";
+import { existsSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -131,6 +132,12 @@ function assertPdfPath(pdfPath: string): void {
 }
 
 function resolvePythonCommand(): string {
+  if (!app.isPackaged) {
+    const localPython = path.resolve(app.getAppPath(), "../../.venv/Scripts/python.exe");
+    if (existsSync(localPython)) {
+      return localPython;
+    }
+  }
   return process.platform === "win32" ? "python" : "python3";
 }
 

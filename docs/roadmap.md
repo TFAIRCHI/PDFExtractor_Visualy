@@ -53,6 +53,7 @@ Blocked until the geometry-overlay and packaged-sidecar spikes are verified.
 - `python -m pytest services/extraction/tests`: passed.
 - `python -m ruff check services/extraction/src services/extraction/tests`: passed.
 - `python -m mypy services/extraction/src`: passed.
+- `.venv` sidecar isolation through `uv`: passed.
 - `cargo fmt --check`: passed.
 - `cargo test`: passed.
 - `cargo clippy --all-targets -- -D warnings`: passed.

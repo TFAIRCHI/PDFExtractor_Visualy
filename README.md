@@ -21,14 +21,14 @@ npm install
 Install Python sidecar in editable mode:
 
 ```powershell
-python -m pip install -e services/extraction[dev]
+powershell -ExecutionPolicy Bypass -File scripts/setup-python.ps1
 ```
 
 Run checks:
 
 ```powershell
 npm test
-python -m pytest services/extraction/tests
+.\.venv\Scripts\python.exe -m pytest services/extraction/tests
 ```
 
 Run the desktop app:
