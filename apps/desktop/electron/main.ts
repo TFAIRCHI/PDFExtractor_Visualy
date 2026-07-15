@@ -91,8 +91,7 @@ function registerIpc(): void {
     assertPdfPath(pdfPath);
     logEvent("info", "native_extraction_started", { extension: path.extname(pdfPath).toLowerCase() });
     const response = await getExtractionService().request("document.extractNative", {
-      pdfPath,
-      maxPages: 1
+      pdfPath
     });
     const parsed = DocumentModelSchema.parse(response) satisfies DocumentModel;
     logEvent("info", "native_extraction_completed", {

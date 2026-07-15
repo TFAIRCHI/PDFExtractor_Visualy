@@ -87,9 +87,36 @@ input:focus-visible {
   font-weight: 600;
 }
 
+.page-controls {
+  display: grid;
+  grid-template-columns: 72px 1fr 72px;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.page-controls span {
+  text-align: center;
+  color: #405266;
+}
+
 .inspector {
   border-top: 1px solid #d8dee6;
   padding-top: 18px;
+}
+
+.pattern-panel {
+  border-top: 1px solid #d8dee6;
+  padding-top: 18px;
+}
+
+.pattern-panel ol {
+  max-height: 160px;
+  margin: 10px 0 0;
+  padding-left: 20px;
+  overflow: auto;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 dl {
@@ -145,4 +172,14 @@ canvas {
 .word-box.selected {
   border-color: #b42318;
   background: rgba(180, 35, 24, 0.18);
+}
+
+.word-box.pattern-match {
+  border-color: #087443;
+  background: rgba(8, 116, 67, 0.16);
+}
+
+.word-box.pattern-match.selected {
+  border-color: #b42318;
+  background: rgba(180, 35, 24, 0.22);
 }

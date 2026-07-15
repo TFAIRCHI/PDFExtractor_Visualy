@@ -205,7 +205,49 @@ def _runs_to_words(
                 )
             )
             cursor_x += width + estimated_char_width
-    return words
+    return _resolve_same_line_overlaps(words, page_width, page_height)
+
+
+def _resolve_same_line_overlaps(
+    words: list[WordObject], page_width: float, page_height: float
+) -> list[WordObject]:
+    if len(words) < 2:
+        return words
+
+    resolved = list(words)
+    line_tolerance = max((word.sourceBBox.height for word in words), default=1.0) * 0.6
+    by_page_and_line = sorted(
+        enumerate(resolved),
+        key=lambda item: (item[1].pageIndex, round(item[1].sourceBBox.y / line_tolerance), item[1].sourceBBox.x),
+    )
+
+    for current_pair, next_pair in zip(by_page_and_line, by_page_and_line[1:]):
+        current_index, current = current_pair
+        _next_index, next_word = next_pair
+        if current.pageIndex != next_word.pageIndex:
+            continue
+        if abs(current.sourceBBox.y - next_word.sourceBBox.y) > line_tolerance:
+            continue
+        current_right = current.sourceBBox.x + current.sourceBBox.width
+        gap = next_word.sourceBBox.x - current.sourceBBox.x
+        if current_right <= next_word.sourceBBox.x or gap <= 1.0:
+            continue
+        adjusted_width = max(1.0, gap - 1.0)
+        adjusted_source = BBox(
+            x=current.sourceBBox.x,
+            y=current.sourceBBox.y,
+            width=adjusted_width,
+            height=current.sourceBBox.height,
+        )
+        resolved[current_index] = current.model_copy(
+            update={
+                "sourceBBox": adjusted_source,
+                "normalizedBBox": normalize_bbox(adjusted_source, page_width, page_height),
+                "confidence": min(current.confidence, 0.68),
+            }
+        )
+
+    return resolved
 
 
 def _estimate_confidence(text: str, run_chars: int) -> float:

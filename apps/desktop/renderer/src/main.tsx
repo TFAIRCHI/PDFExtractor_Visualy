@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import * as pdfjsLib from "pdfjs-dist";
 import type { PDFDocumentProxy, PDFPageProxy } from "pdfjs-dist";
 import type { DocumentModel, ProjectModel, WordObject } from "@pdf-intelligence/contracts";
+import { findSameWordMatches } from "./patternDiscovery.js";
 import "./styles.css";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL(
@@ -19,15 +20,25 @@ type LoadedPdf = {
 function App(): React.ReactElement {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [loadedPdf, setLoadedPdf] = useState<LoadedPdf | null>(null);
+  const [pdfDocument, setPdfDocument] = useState<PDFDocumentProxy | null>(null);
   const [documentModel, setDocumentModel] = useState<DocumentModel | null>(null);
   const [pdfPage, setPdfPage] = useState<PDFPageProxy | null>(null);
+  const [activePageIndex, setActivePageIndex] = useState(0);
   const [scale, setScale] = useState(1.25);
   const [status, setStatus] = useState("Open a PDF to begin.");
   const [selectedWord, setSelectedWord] = useState<WordObject | null>(null);
   const [projectPath, setProjectPath] = useState<string | null>(null);
 
   const viewport = useMemo(() => pdfPage?.getViewport({ scale }) ?? null, [pdfPage, scale]);
-  const pageWords = documentModel?.pages[0]?.words ?? [];
+  const pageWords = documentModel?.pages.find((page) => page.pageIndex === activePageIndex)?.words ?? [];
+  const selectedPattern = useMemo(
+    () => findSameWordMatches(documentModel, selectedWord),
+    [documentModel, selectedWord]
+  );
+  const selectedPatternIds = useMemo(
+    () => new Set(selectedPattern.map((word) => word.objectId)),
+    [selectedPattern]
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -58,8 +69,10 @@ function App(): React.ReactElement {
   async function loadPdfFromPath(pdfPath: string, name: string): Promise<void> {
     const bytes = await window.pdfIntelligence.readPdf(pdfPath);
     setLoadedPdf({ path: pdfPath, name, bytes });
+    setPdfDocument(null);
     setDocumentModel(null);
     setSelectedWord(null);
+    setActivePageIndex(0);
     setProjectPath(null);
     setStatus("Rendering first page.");
     await renderFirstPage(bytes, scale);
@@ -69,6 +82,7 @@ function App(): React.ReactElement {
   async function renderFirstPage(bytes: ArrayBuffer, nextScale: number): Promise<void> {
     const loadingTask = pdfjsLib.getDocument({ data: bytes.slice(0) });
     const pdf: PDFDocumentProxy = await loadingTask.promise;
+    setPdfDocument(pdf);
     const page = await pdf.getPage(1);
     setPdfPage(page);
     await renderPage(page, nextScale);
@@ -101,7 +115,12 @@ function App(): React.ReactElement {
       setStatus("Extracting native words through Python sidecar.");
       const extracted = await window.pdfIntelligence.extractNative(loadedPdf.path);
       setDocumentModel(extracted);
-      setStatus(`Extraction complete. ${extracted.pages[0]?.words.length ?? 0} words detected.`);
+      setSelectedWord(null);
+      const wordCount = extracted.pages.reduce(
+        (total: number, page: DocumentModel["pages"][number]) => total + page.words.length,
+        0
+      );
+      setStatus(`Extraction complete. ${wordCount} words detected across ${extracted.pages.length} pages.`);
     } catch (error) {
       setStatus(`Extraction failed: ${error instanceof Error ? error.message : String(error)}`);
     }
@@ -112,6 +131,18 @@ function App(): React.ReactElement {
     if (pdfPage) {
       await renderPage(pdfPage, nextScale);
     }
+  }
+
+  async function goToPage(nextPageIndex: number): Promise<void> {
+    if (!pdfDocument) {
+      return;
+    }
+    const boundedPageIndex = Math.min(Math.max(nextPageIndex, 0), pdfDocument.numPages - 1);
+    const page = await pdfDocument.getPage(boundedPageIndex + 1);
+    setActivePageIndex(boundedPageIndex);
+    setPdfPage(page);
+    setSelectedWord(null);
+    await renderPage(page, scale);
   }
 
   async function saveProject(): Promise<void> {
@@ -145,6 +176,7 @@ function App(): React.ReactElement {
     setDocumentModel(result.project.document);
     setProjectPath(result.path);
     setSelectedWord(null);
+    setActivePageIndex(0);
     await renderFirstPage(bytes, scale);
     setStatus(`Project reopened: ${result.path}`);
   }
@@ -181,6 +213,25 @@ function App(): React.ReactElement {
             onChange={(event) => void changeScale(Number(event.target.value))}
           />
         </label>
+        <div className="page-controls" aria-label="Page navigation">
+          <button
+            onClick={() => void goToPage(activePageIndex - 1)}
+            disabled={!pdfDocument || activePageIndex === 0}
+            data-testid="previous-page"
+          >
+            Prev
+          </button>
+          <span data-testid="page-indicator">
+            Page {activePageIndex + 1} of {pdfDocument?.numPages ?? documentModel?.pageCount ?? 1}
+          </span>
+          <button
+            onClick={() => void goToPage(activePageIndex + 1)}
+            disabled={!pdfDocument || activePageIndex + 1 >= pdfDocument.numPages}
+            data-testid="next-page"
+          >
+            Next
+          </button>
+        </div>
         <section className="inspector" aria-label="Selected word inspector">
           <h2>Selection</h2>
           {selectedWord ? (
@@ -195,11 +246,27 @@ function App(): React.ReactElement {
               <dd>{Math.round(selectedWord.confidence * 100)}%</dd>
               <dt>Source bbox</dt>
               <dd>{formatBBox(selectedWord.sourceBBox)}</dd>
+              <dt>Matches</dt>
+              <dd data-testid="pattern-summary">
+                {selectedPattern.length} occurrence{selectedPattern.length === 1 ? "" : "s"}
+              </dd>
             </dl>
           ) : (
             <p>Select a highlighted word.</p>
           )}
         </section>
+        {selectedWord ? (
+          <section className="pattern-panel" aria-label="Same word pattern matches">
+            <h2>Pattern Matches</h2>
+            <ol data-testid="pattern-matches">
+              {selectedPattern.slice(0, 20).map((word) => (
+                <li key={word.objectId} data-testid="pattern-match">
+                  Page {word.pageIndex + 1}: {word.text}
+                </li>
+              ))}
+            </ol>
+          </section>
+        ) : null}
       </aside>
       <section className="document-stage" aria-label="PDF page">
         <div className="page-frame">
@@ -209,7 +276,7 @@ function App(): React.ReactElement {
               {pageWords.map((word) => (
                 <button
                   key={word.objectId}
-                  className={word.objectId === selectedWord?.objectId ? "word-box selected" : "word-box"}
+                  className={wordClassName(word, selectedWord, selectedPatternIds)}
                   data-testid="word-box"
                   style={wordStyle(word, viewport.width, viewport.height)}
                   onClick={() => setSelectedWord(word)}
@@ -222,6 +289,21 @@ function App(): React.ReactElement {
       </section>
     </main>
   );
+}
+
+function wordClassName(
+  word: WordObject,
+  selectedWord: WordObject | null,
+  selectedPatternIds: Set<string>
+): string {
+  const classes = ["word-box"];
+  if (selectedPatternIds.has(word.objectId)) {
+    classes.push("pattern-match");
+  }
+  if (word.objectId === selectedWord?.objectId) {
+    classes.push("selected");
+  }
+  return classes.join(" ");
 }
 
 function wordStyle(word: WordObject, width: number, height: number): React.CSSProperties {
