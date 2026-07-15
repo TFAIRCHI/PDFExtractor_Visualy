@@ -20,6 +20,8 @@
   Commit: `9637530`
 - Windows installer gap: resolved with unsigned NSIS installer generation and a placeholder Windows icon.
   Commit: `cba8e4e`
+- Package artifact verification gap: resolved with `npm run verify:package`, which checks the unsigned installer, unpacked app executable, bundled sidecar executable, and packaged sidecar health RPC.
+  Commit: current update
 
 ## Still Not Production-Cleared
 

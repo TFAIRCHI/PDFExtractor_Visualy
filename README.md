@@ -45,6 +45,18 @@ npm run package:dir
 
 The package command builds a PyInstaller sidecar executable and includes it in the Electron resources directory.
 
+Build and verify the unsigned Windows installer:
+
+```powershell
+npm run package:installer
+npm run verify:package
+```
+
+The current executable outputs are:
+
+- Installer: `installers/dev/PDF Intelligence Setup 0.1.0.exe`
+- Unpacked app executable: `installers/dev/win-unpacked/PDF Intelligence.exe`
+
 ## First Vertical Slice
 
 The current target workflow is:

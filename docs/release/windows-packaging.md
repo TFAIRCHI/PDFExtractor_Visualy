@@ -11,11 +11,17 @@ Current output:
 - Packaged sidecar no longer depends on a separately installed Python interpreter.
 - Packaged smoke test launches the built app with development Python removed from `PATH`.
 - Placeholder Windows icon is stored at `apps/desktop/assets/icon.ico`.
+- `npm run verify:package` checks the installer, unpacked executable, bundled sidecar, and packaged sidecar `health.check` RPC.
+
+Build and verify locally:
+
+```powershell
+npm run package:installer
+npm run verify:package
+```
 
 Production packaging requires:
 
-- Compiled Rust extensions.
-- Installer technology selection.
 - Code-signing configuration.
 - Upgrade and rollback strategy.
 - Clean-machine installation test.

@@ -62,6 +62,7 @@ Blocked until the geometry-overlay and packaged-sidecar spikes are verified.
 - Privacy-safe main-process structured logging: implemented.
 - NSIS installer generation and placeholder icon: implemented.
 - Unsigned installer artifact: `installers/dev/PDF Intelligence Setup 0.1.0.exe`.
+- `npm run verify:package`: passed against the rebuilt installer, unpacked app executable, and bundled sidecar health check.
 - `cargo fmt --check`: passed.
 - `cargo test`: passed.
 - `cargo clippy --all-targets -- -D warnings`: passed.
