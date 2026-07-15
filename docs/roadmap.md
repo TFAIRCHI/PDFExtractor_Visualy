@@ -37,7 +37,7 @@ Completed:
 Risks:
 
 - `pdf.js` rendering and `pypdf` extraction are not a fully verified same-engine geometry path.
-- Rust geometry crate cannot be built until Rust is installed.
+- Rust geometry crate builds and passes tests with Rust 1.97.0.
 - Overlay alignment has not yet been verified with golden image comparisons, rotations, crop boxes, or high-DPI screenshots.
 
 ## Milestone 3+
@@ -53,4 +53,6 @@ Blocked until the geometry-overlay and packaged-sidecar spikes are verified.
 - `python -m pytest services/extraction/tests`: passed.
 - `python -m ruff check services/extraction/src services/extraction/tests`: passed.
 - `python -m mypy services/extraction/src`: passed.
-- Rust tests: not run because `rustc` and `cargo` are missing.
+- `cargo fmt --check`: passed.
+- `cargo test`: passed.
+- `cargo clippy --all-targets -- -D warnings`: passed.

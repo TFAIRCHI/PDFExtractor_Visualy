@@ -30,9 +30,9 @@
 - Python MyPy: passed.
 - Node audit: passed.
 - Electron directory package: passed.
+- Rust format, tests, and clippy: passed.
 
 Not yet run:
 
 - Playwright end-to-end workflow.
 - Golden overlay image comparisons.
-- Rust `cargo test`.

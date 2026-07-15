@@ -1,5 +1,10 @@
 $ErrorActionPreference = "Continue"
 
+$cargoBin = Join-Path $env:USERPROFILE ".cargo\bin"
+if (Test-Path $cargoBin) {
+  $env:Path = "$cargoBin;$env:Path"
+}
+
 Write-Host "Node:" (node --version)
 Write-Host "npm:" (npm --version)
 Write-Host "Python:" (python --version)
